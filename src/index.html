@@ -40,6 +40,23 @@
                         },
 
                     },
+                    methods: {
+                    addItem:function() {
+                    
+                        this.classes.Spaces=this.classes.Spaces - 1;
+                        
+                        
+                    },
+                        
+                },
+                computed: {
+                    countSpace: function ()
+                    {
+                        return this.classes.Spaces >  0;
+
+
+                    }
+                }
                    
                    
                 });
