@@ -1,65 +1,87 @@
 <!DOCTYPE html>
-    <html>
-        <head>
-            <title>After Class Activity</title>
 
-            <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
-        </head>
-        <body>
-            <!-- Main body code-->
-            <div id="app">
-                <main>
-                    <figure>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Pet Store</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js" ></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+        <div id="app">
+            <header>
+                <h1 v-text="sitename">
 
-                        <img v-bind:src="classes.Image">
+                </h1>
+                <button>
+                    {{cartItemCount}}
+                    <span class="fas fa-cart-plus"></span>
+                </button>
+            </header>
+            <main>
+                <figure>
+                    <img v-bind:src="product.image">
+                </figure>
+                <h2 v-text="product.title"></h2>
+                <p  v-html="product.description"></p>
+                <p>Price:{{product.price}}</p>
+                <p>Left:{{product.space}}</p>
+                <button v-on:click="addItem"
+                 v-if = "canAddToCart">
+                        Add to Cart please
+                    <span class="fas fa-cart-plus" ></span>
+                </button>
+                <button disabled="disabled" v-else>
+                       Add to Cart please
+                   <span class="fas fa-cart-plus" ></span>
+               </button>
+                
+            </main>
 
-                    </figure>
-                    <h2 v-text="classes.Subject"></h2>
-                    <p v-text="classes.Location"></p>
-                    <p v-text="classes.price"></p>
-                    <p> Space left: {{classes.Spaces}}</p>
-                    <button v-on:click="addItem" :disabled="countSpace==0">
-                        Add to Cart 
-                    </button>
-                </main>
 
-            </div>
-            <!-- Javascript code -->
-            <script type="text/javascript" >
-                var subjectStore = new Vue ({
-                    //linking with app id
-                    el : "#app",
-                    //data code 
-                    data :{
-                        classes:{
-                        'Subject':'Math',
-                        'Location': 'London',
-                        'Price': '$100',
-                        'Spaces':5,
-                        'Image':"image/mathImage.png"
-                        },
 
-                    },
-                    methods: {
-                    addItem:function() {
-                    
-                        this.classes.Spaces=this.classes.Spaces - 1;
-                        
-                        
-                    },
+        </div>
+      
+        
+        <script>
+            var webstore= new Vue({
+                el:'#app',
+                data:{
+                    sitename:"After School Activities",
+                    product:{
+                            id:1,
+                            title:"Maths Tuition ",
+                            description:"Math tuition after school hours to get improve the students skills",
+                            price:"AED 200",
+                            image:"image/mathImage.png",
+                            availableInventory:5,
+                            space:5,
+                            },
+                    cart:[]
+
+                },
+                methods: {
+                    addItem: function () {
+                        this.cart.push(this.product.id);
+                        console.log(this.cart)
+                        this.product.space=this.product.space-1;
+                    }
                         
                 },
-                computed: {
-                    countSpace: function ()
-                    {
-                        return this.classes.Spaces >  0;
+                computed:{
+                    cartItemCount: function () {
+                        return this.cart.length;
 
-
+                    },
+                    canAddToCart() {
+                        return this.product.availableInventory > this.cartItemCount;
                     }
-                }
-                   
-                   
-                });
-            </script>
-        </body>
-    </html>
+                },
+            });
+        </script>
+    </body>
+</html>
